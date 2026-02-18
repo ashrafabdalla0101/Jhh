@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Important Question</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  color: white;
+
+  /* Animated pride background */
+  background: linear-gradient(
+    270deg,
+    red, orange, yellow, green, blue, indigo, violet
+  );
+  background-size: 1400% 1400%;
+  animation: rainbow 8s ease infinite;
+}
+
+@keyframes rainbow {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+h1 {
+  text-shadow: 2px 2px 8px black;
+}
+
+button {
+  padding: 15px 35px;
+  margin: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+#yesBtn { background: white; }
+#noBtn {
+  background: black;
+  color: white;
+  position: absolute;
+}
+
+#message {
+  font-size: 28px;
+  margin-top: 20px;
+  text-shadow: 2px 2px 6px black;
+}
+
+/* Confetti pieces */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="question">Are you gay?</h1>
+
+<div>
+  <button id="yesBtn">Yes</button>
+  <button id="noBtn">No</button>
+</div>
+
+<div id="message"></div>
+
+<!-- Funny sound -->
+<audio id="sound">
+  <source src="https://www.myinstants.com/media/sounds/why-are-you-gay.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+const question = document.getElementById("question");
+const sound = document.getElementById("sound");
+
+/* Make NO button escape faster */
+function moveButton() {
+  const maxX = window.innerWidth - 120;
+  const maxY = window.innerHeight - 60;
+
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
+}
+
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("touchstart", moveButton);
+
+/* Confetti effect */
+function createConfetti() {
+  const colors = ["red","orange","yellow","green","blue","purple","pink"];
+
+  for (let i = 0; i < 80; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    document.body.appendChild(confetti);
+
+    setTimeout(() => confetti.remove(), 3000);
+  }
+}
+
+/* Follow-up questions */
+let step = 0;
+
+yesBtn.onclick = () => {
+  sound.play();
+  createConfetti();
+
+  step++;
+
+  if (step === 1) {
+    question.textContent = "Why are you gay?";
+  } else if (step === 2) {
+    question.textContent = "Who made you gay?";
+  } else if (step === 3) {
+    question.textContent = "Do your parents know?";
+  } else {
+    question.textContent = "🏳️‍🌈 PRIDE ACCEPTED 🏳️‍🌈";
+  }
+};
+</script>
+
+</body>
+</html>
+
